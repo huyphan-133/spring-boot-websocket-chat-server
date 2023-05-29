@@ -15,13 +15,15 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        logger.info("hello world");
         registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/app");
-        registry.enableSimpleBroker("/topic");
+//        registry.enableSimpleBroker("/topic");
+        registry.setApplicationDestinationPrefixes("/app")
+                .enableStompBrokerRelay("/topic")
+                .setRelayHost("127.0.0.1")
+                .setRelayPort(61613);
     }
 }
